@@ -1,7 +1,5 @@
 import task
 
-
-
 tasks = task.load_tasks()
 
 def display_menu():
@@ -23,7 +21,7 @@ while True:
     elif choice == "3":
         task.mark_as_complete(tasks)
     elif choice == "4":
-        print("Deleting task... (to be implemented)")
+        task.delete_task(tasks)
     elif choice == "5":
         print("Exiting Task Tracker.")
         break

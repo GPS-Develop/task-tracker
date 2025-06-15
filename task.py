@@ -61,13 +61,7 @@ def view_all_tasks(tasks):
             check_or_cross = "❌"    
         print(f'{i}. {task["name"]} - due {task["due_date"]} - {check_or_cross}')
 
-
-def mark_as_complete(tasks):
-    if no_task(tasks, "No Tasks to mark Complete"):
-        return
-    view_all_tasks(tasks)
-    choice = input("Enter the number of the task to mark complete: ")
-
+def validate_digit(choice, tasks):
     if not choice.isdigit():
         print("Please enter a valid number.")
         return
@@ -75,7 +69,16 @@ def mark_as_complete(tasks):
 
     if index < 0 or index >= len(tasks):
         print("Invalid task number.")
+        return    
+    return index
+
+
+def mark_as_complete(tasks):
+    if no_task(tasks, "No Tasks to mark Complete"):
         return
+    view_all_tasks(tasks)
+    choice = input("Enter the number of the task to mark complete: ")
+    index = validate_digit(choice, tasks)
     
     if tasks[index]["is_done"]:
         print(f"Task '{tasks[index]['name']}' is already marked as complete.")
@@ -85,5 +88,21 @@ def mark_as_complete(tasks):
     save_tasks(tasks)
     print(f'✅ {tasks[index]["name"]} marked as complete.')   
 
-    def delete_task(tasks):
-        no_task(tasks, "No tasks to delete ")
+
+def delete_task(tasks):
+    if no_task(tasks, "No tasks to delete."):
+        return
+
+    view_all_tasks(tasks)
+    choice = input("Enter the number of the task to delete: ")
+    index = validate_digit(choice, tasks)
+
+    if index is None:
+        return
+
+    deleted_name = tasks[index]["name"]
+    del tasks[index]
+    save_tasks(tasks)
+    print(f'🗑️ "{deleted_name}" has been deleted.')
+
+
