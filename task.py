@@ -46,13 +46,14 @@ def add_task(tasks):
     save_tasks(tasks)
     print("Task added successfully!")
 
-def no_task(tasks):
+def no_task(tasks,message):
         if not tasks:
-            print("No tasks found. ")
-            return
+            print(message)
+            return True
+        return False
 
 def view_all_tasks(tasks):
-    no_task(tasks)
+    no_task(tasks, "No tasks to view")
     for i, task in enumerate(tasks, start=1):
         if task["is_done"] is True:
             check_or_cross = "✅"
@@ -62,7 +63,8 @@ def view_all_tasks(tasks):
 
 
 def mark_as_complete(tasks):
-    no_task(tasks)
+    if no_task(tasks, "No Tasks to mark Complete"):
+        return
     view_all_tasks(tasks)
     choice = input("Enter the number of the task to mark complete: ")
 
@@ -82,3 +84,6 @@ def mark_as_complete(tasks):
     tasks[index]["is_done"] = True
     save_tasks(tasks)
     print(f'✅ {tasks[index]["name"]} marked as complete.')   
+
+    def delete_task(tasks):
+        no_task(tasks, "No tasks to delete ")
